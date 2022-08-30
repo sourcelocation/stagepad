@@ -4,10 +4,10 @@ INSTALL_TARGET_PROCESSES = SpringBoard
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = SwitchPad
+TWEAK_NAME = StagePad
 
-SwitchPad_FILES = $(shell find Sources/SwitchPad -name '*.swift') $(shell find Sources/SwitchPadC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
-SwitchPad_SWIFTFLAGS = -ISources/SwitchPadC/include
-SwitchPad_CFLAGS = -fobjc-arc -ISources/SwitchPadC/include
+StagePad_FILES = $(shell find Sources/StagePad -name '*.swift') $(shell find Sources/StagePadC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
+StagePad_SWIFTFLAGS = -ISources/StagePadC/include
+StagePad_CFLAGS = -fobjc-arc -ISources/StagePadC/include
 
 include $(THEOS_MAKE_PATH)/tweak.mk
