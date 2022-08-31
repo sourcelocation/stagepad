@@ -65,23 +65,23 @@ let swiftFlags: [String] = libFlags + [
 ]
 
 let package = Package(
-    name: "SwitchPad",
+    name: "StagePad",
     platforms: [.iOS(deploymentTarget)],
     products: [
         .library(
-            name: "SwitchPad",
-            targets: ["SwitchPad"]
+            name: "StagePad",
+            targets: ["StagePad"]
         ),
     ],
     targets: [
         .target(
-            name: "SwitchPadC",
+            name: "StagePadC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
-            name: "SwitchPad",
-            dependencies: ["SwitchPadC"],
+            name: "StagePad",
+            dependencies: ["StagePadC"],
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
     ]
