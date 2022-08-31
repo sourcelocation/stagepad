@@ -20,12 +20,13 @@ class SBMainSwitcherViewControllerHook: ClassHook<SBMainSwitcherViewController> 
             guard let displayItems = appLayout.allItems() as? [SBDisplayItem], 
                     displayItems.count > 0 else { continue }
             let item = displayItems[0]
-            target._deleteAppLayouts(matchingBundleIdentifier:item.bundleIdentifier())
+            guard let bundleId = item.bundleIdentifier() as? String else { continue }
+            closeApp(bundleId)
         }
     }
+    
+    // orion:new
+    func closeApp(_ bundleID: String) {
+        target._deleteAppLayouts(matchingBundleIdentifier:bundleID)
+    }
 }
-//class SBAppSwitcherScrollViewHook: ClassHook<SBAppSwitcherScrollView> {
-//    func didMoveToWindow() {
-//        target.transform = .init(rotationAngle: -.pi / 2)
-//    }
-//}
