@@ -16,3 +16,6 @@
 
 @interface SBReusableSnapshotItemContainer : UIView
 @end
+
+@interface SBAppSwitcherScrollView : UIView
+@end
