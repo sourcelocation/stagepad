@@ -1,5 +1,6 @@
-TARGET := iphone:clang:latest:12.2
+TARGET := iphone:clang:latest:14.0
 INSTALL_TARGET_PROCESSES = SpringBoard
+export SYSROOT = $(THEOS)/sdks/iPhoneOS14.5.sdk
 
 
 include $(THEOS)/makefiles/common.mk
