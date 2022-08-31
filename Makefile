@@ -3,7 +3,7 @@ INSTALL_TARGET_PROCESSES = SpringBoard
 export SYSROOT = $(THEOS)/sdks/iPhoneOS14.5.sdk
 
 
-include $(THEOS)/makefiles/common.mk
+include $(THEOS)/makefiles/common.mkgit
 
 TWEAK_NAME = StagePad
 
