@@ -5,8 +5,10 @@ import UIKit
 class SBMainSwitcherViewControllerHook: ClassHook<SBMainSwitcherViewController> {
     func viewDidAppear(_ animated: Bool) {
         orig.viewDidAppear(animated)
-
-        remLog("viewDidAppear")
+        /* For native
+        target.transform = CGAffineTransform(a: 0, b: 1, c: 1, d: 0, tx: 1, ty: 1)
+        target.frame = CGRect(x: 0, y: 0, width: 375, height: 667)
+ */
     }
 
     // orion:new
