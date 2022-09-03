@@ -1,9 +1,9 @@
 Package: net.sourceloc.stagepad
 Name: StagePad
-Version: 0.0.1
+Version: 1.0
 Architecture: iphoneos-arm
 Description: An awesome Orion tweak!
 Maintainer: sourcelocation
 Author: sourcelocation
 Section: Tweaks
-Depends: ${ORION}, firmware (>= 12.2)
+Depends: ${ORION}, firmware (>= 14.0)

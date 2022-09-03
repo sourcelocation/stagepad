@@ -13,11 +13,9 @@ class SBMainSwitcherViewControllerHook: ClassHook<SBMainSwitcherViewController> 
 
         let switcherView = AppSwitcherView(apps: []).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         let hostingVC = UIHostingController(rootView: switcherView)
-        // target.addChild(hostingVC)
         let switcherUIView = hostingVC.view!
         target.view.addSubview(switcherUIView)
         switcherUIView.frame = .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        // hostingVC.didMove(toParent: target)
         
     }
 

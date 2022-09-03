@@ -44,7 +44,7 @@ let conf = TheosConfiguration(at: ".theos/spm_config")
 let theosPath = conf.theos
 let sdk = conf.sdk
 let resourceDir = conf.swiftResourceDir
-let deploymentTarget = conf.deploymentTarget
+let deploymentTarget = "14.0"
 let triple = "arm64-apple-ios\(deploymentTarget)"
 
 let libFlags: [String] = [

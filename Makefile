@@ -1,14 +1,17 @@
 TARGET := iphone:clang:latest:14.0
 INSTALL_TARGET_PROCESSES = SpringBoard
 
-
-include $(THEOS)/makefiles/common.mk
+ifeq ($(detected_OS),Darwin)
+    export SYSROOT = $(THEOS)/sdks/iPhoneOS14.5.sdk
+endif
 
 TWEAK_NAME = StagePad
 
-StagePad_FILES = $(shell find Sources/StagePad -name '*.swift') $(shell find Sources/StagePadC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
-StagePad_SWIFTFLAGS = -ISources/StagePadC/include
-StagePad_CFLAGS = -fobjc-arc -ISources/StagePadC/include
-StagePad_PRIVATE_FRAMEWORKS = SpringBoard
+${TWEAK_NAME}_FILES = $(shell find Sources/${TWEAK_NAME} -name '*.swift') $(shell find Sources/${TWEAK_NAME}C -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
+${TWEAK_NAME}_SWIFTFLAGS = -ISources/${TWEAK_NAME}C/include
+${TWEAK_NAME}_CFLAGS = -fobjc-arc -ISources/${TWEAK_NAME}C/include
+${TWEAK_NAME}_PRIVATE_FRAMEWORKS = SpringBoard
 
+
+include $(THEOS)/makefiles/common.mk
 include $(THEOS_MAKE_PATH)/tweak.mk
