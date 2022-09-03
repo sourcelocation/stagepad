@@ -1,55 +1,41 @@
 import SwiftUI
 
 struct AppSwitcherView: View {
+    @State var apps: [AppSwitcherApp]
     var body: some View {
         VStack {
-            AppSwitcherAppListView(apps: [
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-                .init(),
-            ])
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
+            AppSwitcherAppListView(apps: apps)
+            Spacer()
         }
     }
 }
 
-struct AppSwitcherApp: Identifiable {
-    var id = UUID()
-    var previewImage: UIImage = .init(named: "default")!
-    var title: String = "Settings"
-    var icon: UIImage = .init(named: "icon")!
-}
-
 struct AppSwitcherAppListView: View {
-    var apps: [AppSwitcherApp]
+    @State var apps: [AppSwitcherApp]
     
     var body: some View {
         ListWithoutSepatorsAndMargins {
             ForEach(apps) {
                 AppSwitcherAppView(app: $0, showTitle: true)
                     .listStyle(SidebarListStyle())
-                    .background(.clear)
+                    .background(Color.clear)
             }
         }
     }
 }
+class AppSwitcherApp : NSObject, Identifiable {
+    var id = UUID()
+    var previewImage: UIImage!
+    var title: String!
+    var icon: UIImage!
+
+    init(previewImage: UIImage, title: String, icon: UIImage) {
+        self.previewImage = previewImage
+        self.title = title
+        self.icon = icon
+    }
+}
+
 
 struct AppSwitcherAppView: View {
     var app: AppSwitcherApp
