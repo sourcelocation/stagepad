@@ -9,6 +9,7 @@
 
 @interface SBDeckSwitcherViewController : UIViewController
 - (id)iconForDisplayItem:(id)arg1;
+- (id)contentView;
 @end
 
 @interface SBMainSwitcherViewController : UIViewController
@@ -29,4 +30,7 @@
 @end
 
 @interface SBAppSwitcherScrollView : UIView
+@end
+
+@interface SBMainSwitcherWindow : UIWindow
 @end
