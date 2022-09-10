@@ -2,5 +2,4 @@
 Redesign for App Switcher
 
 Work in progress
-
-<img width="375" alt="image" src="https://user-images.githubusercontent.com/52459150/189485344-49a07a71-e3a9-4bd8-8378-f130a86fbcb7.png">
+![image](https://user-images.githubusercontent.com/52459150/189497423-9ab20263-ee1a-49c4-b679-086b358396be.png)
