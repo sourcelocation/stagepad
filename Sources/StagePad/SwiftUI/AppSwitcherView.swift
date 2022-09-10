@@ -80,13 +80,14 @@ struct AppSwitcherAppView: View {
             ZStack(alignment: .bottomLeading) {
                 if app.previewImage != nil {
                     Image(uiImage: app.previewImage!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 90, height: 130)
-                        .clipped()
-                        .cornerRadius(6)
-                        .rotation3DEffect(Angle(degrees: rotationAngle(reader.frame(in: .global).midY)), axis: (x: 0, y: 1, z: 0))
-                        .shadow(radius: 5)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 90, height: 130)
+                    .clipped()
+                    .cornerRadius(6)
+                    .rotation3DEffect(Angle(degrees: rotationAngle(reader.frame(in: .global).midY)), axis: (x: 0, y: 1, z: 0))
+                    .shadow(radius: 5)
+                    .padding()
                 }
                 Image(uiImage: app.icon)
                     .resizable()
@@ -96,9 +97,9 @@ struct AppSwitcherAppView: View {
                     
             }
             .opacity(alpha(reader.frame(in: .global).midY))
-            .padding(20)
         }
         .frame(width: 90, height: 130)
+        .padding()
     }
 }
 
