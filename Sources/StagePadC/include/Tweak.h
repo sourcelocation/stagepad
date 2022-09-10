@@ -7,6 +7,13 @@
 @interface SBAppSwitcherSnapshotImageCache : NSObject
 @end
 
+@interface SBHIconImageCache : NSObject
+@end
+
+@interface SBIconController : UIViewController
+- (id)appSwitcherHeaderIconImageCache;
+@end
+
 @interface SBDeckSwitcherViewController : UIViewController
 - (id)iconForDisplayItem:(id)arg1;
 - (id)contentView;

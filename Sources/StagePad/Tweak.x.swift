@@ -4,12 +4,15 @@ import UIKit
 import SwiftUI
 
 fileprivate var switcherUIView: UIView?
+fileprivate var appsData = AppsData()
 
 class SBAppSwitcherScrollViewHook: ClassHook<SBAppSwitcherScrollView> {
     func setScrollEnabled(_ enabled: Bool) {
         orig.setScrollEnabled(enabled)
 
         remLog("enabled", enabled)
+        
+        switcherUIView?.layer.removeAllAnimations()
         if !enabled {
 			UIView.animate(withDuration: 0.2, animations: {
 				switcherUIView?.alpha = 0
@@ -31,30 +34,28 @@ class SBReusableSnapshotItemContainerHook: ClassHook<SBReusableSnapshotItemConta
 }
 
 class SBMainSwitcherViewControllerHook: ClassHook<SBMainSwitcherViewController> {
-    func viewWillAppear(_ animated: Bool) {
-        orig.viewWillAppear(animated)
+    func viewDidAppear(_ animated: Bool) {
+        orig.viewDidAppear(animated)
 
         let contentVC = self.target.contentViewController() as! SBDeckSwitcherViewController
         
-        // let contentView = contentVC.contentView() as! UIView
-        // contentView.isHidden = true
+        let contentView = contentVC.contentView() as! UIView
+        contentView.isHidden = true
+        if switcherUIView == nil {
+            let switcherView = AppSwitcherView().environmentObject(appsData)
+            let hostingVC = UIHostingController(rootView: switcherView)
+            self.target.view.addSubview(hostingVC.view!)
+            hostingVC.view.backgroundColor = .clear
+            switcherUIView = hostingVC.view!
+            switcherUIView?.frame = .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            switcherUIView?.alpha = 0
+            UIView.animate(withDuration: 0.2, animations: {
+                switcherUIView?.alpha = 1
+            })
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             let apps = self.getApps()
-            if switcherUIView == nil {
-                switcherView = AppSwitcherView(apps: apps)
-                let hostingVC = UIHostingController(rootView: switcherView)
-                self.target.view.addSubview(hostingVC.view!)
-                hostingVC.view.backgroundColor = .clear
-                switcherUIView = hostingVC.view!
-                switcherUIView?.frame = .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                switcherUIView?.alpha = 0
-                UIView.animate(withDuration: 0.2, animations: {
-                    switcherUIView?.alpha = 1
-                })
-             }
-             remLog("newapps", apps)
-            switcherView?.apps = apps
-
+            appsData.apps = apps
         })
     }
 
@@ -64,14 +65,23 @@ class SBMainSwitcherViewControllerHook: ClassHook<SBMainSwitcherViewController> 
         let snapshotCache = Ivars<SBAppSwitcherSnapshotImageCache>(contentVC)._snapshotCache
         let cachedSnapshots = Ivars<NSMutableDictionary>(snapshotCache)._cachedSnapshots
         guard let snapshots = cachedSnapshots.allValues as? [SBAppSwitcherSnapshotCacheEntry] else { return []}
+
+        let iconController = Ivars<SBIconController>(snapshotCache)._iconController
+        remLog("iconController", iconController)
+        let appSwitcherHeaderIconImageCache = iconController.appSwitcherHeaderIconImageCache() as! SBHIconImageCache
+        remLog("appSwitcherHeaderIconImageCache", appSwitcherHeaderIconImageCache)
+        let iconImages = Ivars<NSMutableDictionary>(appSwitcherHeaderIconImageCache)._images
+        remLog("iconImages", iconImages)
+
+        
         var res: [AppSwitcherApp] = []
         for s in snapshots {
             let snapshotImage = Ivars<UIImage>(s)._snapshotImage
             let displayItem = Ivars<SBDisplayItem>(s)._displayItem
             // remLog(snapshotImage, displayItem, contentVC.icon(forDisplayItem: displayItem) as? UIImage)
-            // guard let icon = contentVC.icon(forDisplayItem: displayItem) as? UIImage else { continue }
+            let icon = iconImages[displayItem.bundleIdentifier() ?? ""] as? UIImage
 
-            res.append(AppSwitcherApp(previewImage: snapshotImage, title: "App Name", icon: UIImage(systemName: "applelogo")!, bundleID: displayItem.bundleIdentifier() as! String))
+            res.append(AppSwitcherApp(previewImage: snapshotImage, title: "App Name", icon: icon ?? UIImage(systemName: "applelogo")!, bundleID: displayItem.bundleIdentifier() as! String))
         }
 
         // sort
